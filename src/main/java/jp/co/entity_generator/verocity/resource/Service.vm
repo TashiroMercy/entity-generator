@@ -1,0 +1,76 @@
+package ${sheetInfoVo.packageName}.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ${sheetInfoVo.packageName}.entity.${sheetInfoVo.className};
+import ${sheetInfoVo.packageName}.mapper.${sheetInfoVo.className}Mapper;
+${sheetInfoVo.InterfaceImport}
+
+/**
+ * ${sheetInfoVo.psyTableName} サービス。
+ */
+@Service
+public class ${sheetInfoVo.getServiceFileName()} {
+
+	@Autowired
+	private ${sheetInfoVo.className}Mapper ${sheetInfoVo.getMapperVariableName()};
+
+
+## 1.参照
+#if(${sheetInfoVo.selectFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}参照
+	 *
+	 * @param record ${sheetInfoVo.className} キーのみ利用
+	 * @return ${sheetInfoVo.className} エンティティ
+	 */
+	public ${sheetInfoVo.className} selectByPrimaryKey(${sheetInfoVo.className} record) {
+		return ${sheetInfoVo.getMapperVariableName()}.selectByPrimaryKey(record);
+	}
+
+#end
+## 2.登録
+#if(${sheetInfoVo.insertFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}登録
+	 *
+	 * @param record ${sheetInfoVo.className} 登録エンティティ
+	 * @return 登録件数
+	 */
+	public int insert(${sheetInfoVo.className} record) {
+		return ${sheetInfoVo.getMapperVariableName()}.insert(record);
+	}
+
+#end
+## 3.更新
+#if(${sheetInfoVo.updateFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}更新
+	 *
+	 * @param record ${sheetInfoVo.className} 更新エンティティ
+	 * @return 更新件数
+	 */
+	public int updateByPrimaryKey(${sheetInfoVo.className} record) {
+		return ${sheetInfoVo.getMapperVariableName()}.updateByPrimaryKey(record);
+	}
+
+#end
+## 4.削除
+#if(${sheetInfoVo.deleteFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}削除
+	 *
+	 * @param record ${sheetInfoVo.className} キーのみ利用
+	 * @return 削除件数
+	 */
+	public int deleteByPrimaryKey(${sheetInfoVo.className} record) {
+		return ${sheetInfoVo.getMapperVariableName()}.deleteByPrimaryKey(record);
+	}
+
+#end
+}

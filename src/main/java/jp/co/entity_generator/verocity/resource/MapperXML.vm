@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${sheetInfoVo.packageName}.mapper.${sheetInfoVo.MapperFileName}" >
+
+##################
+## resultMap生成
+##################
+	<resultMap id="ResultMap" type="${sheetInfoVo.packageName}.entity.${sheetInfoVo.className}" >
+		<!--
+			WARNING - 自動生成ソース
+			${sheetInfoVo.psyTableName} Mapper.xml
+		-->
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+		<result column="${entityInfo.lgcCalName}" property="${entityInfo.property}" jdbcType="${entityInfo.jdbcType}" /> <!-- ${entityInfo.psyCalName} -->
+#end
+	</resultMap>
+
+#if(${sheetInfoVo.selectFlg} || ${sheetInfoVo.insertFlg} || ${sheetInfoVo.updatetFlg} || ${sheetInfoVo.deleteFlg})
+##################
+## 共通
+##################
+	<!-- 共通 -->
+	<sql id="Base_Column_List" >
+##カラム（カンマ区切り）Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if($cnt == 0)
+		 ${entityInfo.lgcCalName}
+#else
+		,${entityInfo.lgcCalName}
+#end
+#set($cnt=$cnt + 1)
+#end
+##カラム（カンマ区切り）End
+	</sql>
+	<sql id="Base_PK_WHERE" >
+## PK WHERE 句 Start
+		WHERE
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if(${entityInfo.pkFlg})
+#if($cnt == 0)
+				${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			AND ${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+#end
+## PK WHERE 句 End
+	</sql>
+#end
+
+##################
+## 参照
+##################
+#if(${sheetInfoVo.selectFlg})
+	<!-- ${sheetInfoVo.psyTableName}参照 -->
+	<select id="selectByPrimaryKey" resultMap="ResultMap" parameterType="${sheetInfoVo.packageName}.entity.${sheetInfoVo.className}" >
+		SELECT
+##カラム（カンマ区切り）Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if($cnt == 0)
+			 ${entityInfo.lgcCalName}
+#else
+			,${entityInfo.lgcCalName}
+#end
+#set($cnt=$cnt + 1)
+#end
+##カラム（カンマ区切り）End
+		FROM
+			${sheetInfoVo.lgcTableName}
+## PK WHERE 句 Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if(${entityInfo.pkFlg})
+#if($cnt == 0)
+		WHERE
+				${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			AND ${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+#end
+## PK WHERE 句 End
+	</select>
+#end
+
+##################
+## 登録
+##################
+#if(${sheetInfoVo.insertFlg})
+	<!-- ${sheetInfoVo.psyTableName}登録 -->
+	<insert id="insert" parameterType="${sheetInfoVo.packageName}.entity.${sheetInfoVo.className}" >
+		INSERT INTO ${sheetInfoVo.lgcTableName}
+		(
+##カラム（カンマ区切り）Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if($cnt == 0)
+			 ${entityInfo.lgcCalName}
+#else
+			,${entityInfo.lgcCalName}
+#end
+#set($cnt=$cnt + 1)
+#end
+##カラム（カンマ区切り）End
+		) VALUES (
+## INSERT VALUE 句 Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if($cnt == 0)
+			 #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			,#{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+## INSERT VALUE 句 End
+		)
+	</insert>
+#end
+
+##################
+## 更新
+##################
+#if(${sheetInfoVo.updateFlg})
+	<!-- ${sheetInfoVo.psyTableName}更新 -->
+	<update id="updateByPrimaryKey" parameterType="${sheetInfoVo.packageName}.entity.${sheetInfoVo.className}" >
+		UPDATE
+			${sheetInfoVo.lgcTableName}
+		SET
+## UPDATE SET 句 Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if(!${entityInfo.pkFlg})
+#if($cnt == 0)
+			 ${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			,${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+#end
+## UPDATE SET 句 End
+## PK WHERE 句 Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if(${entityInfo.pkFlg})
+#if($cnt == 0)
+		WHERE
+				${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			AND ${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+#end
+## PK WHERE 句 End
+	</update>
+#end
+
+##################
+## 削除
+##################
+#if(${sheetInfoVo.deleteFlg})
+	<!-- ${sheetInfoVo.psyTableName}削除 -->
+	<delete id="deleteByPrimaryKey" parameterType="${sheetInfoVo.packageName}.entity.${sheetInfoVo.className}" >
+		DELETE
+		FROM
+			${sheetInfoVo.lgcTableName}
+## PK WHERE 句 Start
+#set($cnt=0)
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+#if(${entityInfo.pkFlg})
+#if($cnt == 0)
+		WHERE
+				${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#else
+			AND ${entityInfo.lgcCalName} = #{${entityInfo.property}, jdbcType = ${entityInfo.jdbcType}}
+#end
+#set($cnt=$cnt + 1)
+#end
+#end
+## PK WHERE 句 End
+	</delete>
+#end
+
+##################
+## カスタムＳＱＬ
+##################
+	<!-- 以下カスタムＳＱＬ -->
+#foreach(${customSqlInfo} in ${sheetInfoVo.customSqlInfoList})
+	<!-- ${customSqlInfo.comment} -->
+#set($sqlType=${customSqlInfo.sqlType})
+#if($sqlType == "select")
+##Selectの場合
+	<select id="${customSqlInfo.methodName}" ${customSqlInfo.getResultOption("${sheetInfoVo.className}")} >
+${customSqlInfo.castSql}
+	</select>
+#else
+##Select以外
+	<$sqlType id="${customSqlInfo.methodName}">
+${customSqlInfo.castSql}
+	</$sqlType>
+#end
+
+#end
+</mapper>

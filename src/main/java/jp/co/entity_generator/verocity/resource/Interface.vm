@@ -1,0 +1,73 @@
+package ${sheetInfoVo.packageName}.mapper;
+
+import ${sheetInfoVo.packageName}.entity.${sheetInfoVo.className};
+import org.apache.ibatis.annotations.Param;
+${sheetInfoVo.InterfaceImport}
+
+/**
+ * ${sheetInfoVo.psyTableName} マッパー。
+ *
+ * @author entity generator
+ *
+ */
+public interface ${sheetInfoVo.mapperFileName} {
+
+## 1.参照
+#if(${sheetInfoVo.selectFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}参照
+	 */
+	${sheetInfoVo.className} selectByPrimaryKey(${sheetInfoVo.className} record);
+
+#end
+## 2.登録
+#if(${sheetInfoVo.insertFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}登録
+	 */
+	int insert(${sheetInfoVo.className} record);
+
+#end
+## 3.更新
+#if(${sheetInfoVo.updateFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}更新
+	 */
+	int updateByPrimaryKey(${sheetInfoVo.className} record);
+
+#end
+## 4.削除
+#if(${sheetInfoVo.deleteFlg})
+	/**
+	 * ${sheetInfoVo.psyTableName}削除
+	 */
+	int deleteByPrimaryKey(${sheetInfoVo.className} record);
+
+#end
+## 5.カスタムＳＱＬ
+## カスタムＳＱＬループStart
+#foreach(${customSqlInfo} in ${sheetInfoVo.customSqlInfoList})
+	/**
+	 * ${customSqlInfo.comment}
+	 */
+#if (!${customSqlInfo.parameter} || ${customSqlInfo.parameter} == "")
+	${customSqlInfo.resultType} ${customSqlInfo.methodName}();
+#else
+	${customSqlInfo.resultType} ${customSqlInfo.methodName}(
+## パラメータ設定ループStart
+#set($cnt=0)
+#foreach(${parme} in ${customSqlInfo.parmeterList})
+#if($cnt == 0)
+			@Param("${parme.Name}") ${parme.Type} ${parme.Name}
+#else
+			,@Param("${parme.Name}") ${parme.Type} ${parme.Name}
+#end
+#set($cnt=$cnt + 1)
+#end
+## パラメータ設定ループEnd
+	);
+#end
+
+#end
+## カスタムＳＱＬループEnd
+}

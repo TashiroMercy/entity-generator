@@ -1,0 +1,37 @@
+package ${sheetInfoVo.packageName}.entity;
+
+${sheetInfoVo.entityImport}
+
+/**
+ * ${sheetInfoVo.psyTableName} エンティティ。
+ *
+ * @author entity generator
+ *
+ */
+public class ${sheetInfoVo.className} {
+
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+	/** ${entityInfo.psyCalName} */
+	private ${entityInfo.javaType} ${entityInfo.property};
+
+#end
+
+#foreach(${entityInfo} in ${sheetInfoVo.entityInfoList})
+	/**
+	 * ${entityInfo.psyCalName}を取得します。
+	 * @return ${entityInfo.psyCalName}
+	 */
+	public ${entityInfo.javaType} get${entityInfo.propertyFirstUpper}() {
+		return ${entityInfo.property};
+	}
+
+	/**
+	 * ${entityInfo.psyCalName}を設定します。
+	 * @param ins_cd ${entityInfo.psyCalName}
+	 */
+	public void set${entityInfo.propertyFirstUpper}(${entityInfo.javaType} ${entityInfo.property}) {
+		this.${entityInfo.property} = ${entityInfo.property};
+	}
+
+#end
+}
